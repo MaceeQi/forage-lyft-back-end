@@ -6,6 +6,8 @@ from engine.sternman_engine import SternmanEngine
 
 from battery.nubbin_battery import NubbinBattery
 from battery.spindler_battery import SpindlerBattery
+from tires.carrigan_tires import CarriganTires
+from tires.octoprime_tires import OctoprimeTires
 
 # from engine.model.calliope import Calliope
 # from engine.model.glissade import Glissade
@@ -146,6 +148,82 @@ class TestSternmanEngine(unittest.TestCase):
 
         engine = SternmanEngine(warning_light_is_on)
         self.assertFalse(engine.needs_service())
+
+
+class TestCarriganTires(unittest.TestCase):
+    def test_tires_should_be_serviced1(self):
+        sensors = [0.9, 0, 0, 0]
+
+        tires = CarriganTires(sensors)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_be_serviced2(self):
+        sensors = [0.89, 0.89, 0.91, 0.899]
+
+        tires = CarriganTires(sensors)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_be_serviced3(self):
+        sensors = [0, 0.99, 1, 0]
+
+        tires = CarriganTires(sensors)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_not_be_serviced1(self):
+        sensors = [0.89, 0.89, 0.89, 0.89]
+
+        tires = CarriganTires(sensors)
+        self.assertFalse(tires.needs_service())
+
+    def test_tires_should_not_be_serviced2(self):
+        sensors = [0.89, 0, 0.5, 0.09]
+
+        tires = CarriganTires(sensors)
+        self.assertFalse(tires.needs_service())
+
+    def test_tires_should_not_be_serviced3(self):
+        sensors = [0, 0, 0, 0]
+
+        tires = CarriganTires(sensors)
+        self.assertFalse(tires.needs_service())
+
+
+class TestOctoprimeTires(unittest.TestCase):
+    def test_tires_should_be_serviced1(self):
+        sensors = [1, 1, 1, 0]
+
+        tires = OctoprimeTires(sensors)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_be_serviced2(self):
+        sensors = [1, 1, 0.9, 0.1]
+
+        tires = OctoprimeTires(sensors)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_be_serviced3(self):
+        sensors = [0.9, 0.9, 0.99, 0.5]
+
+        tires = OctoprimeTires(sensors)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_not_be_serviced1(self):
+        sensors = [1, 1, 0.99, 0]
+
+        tires = OctoprimeTires(sensors)
+        self.assertFalse(tires.needs_service())
+
+    def test_tires_should_not_be_serviced2(self):
+        sensors = [0, 0, 0.99, 1]
+
+        tires = OctoprimeTires(sensors)
+        self.assertFalse(tires.needs_service())
+
+    def test_tires_should_not_be_serviced3(self):
+        sensors = [0, 0, 0, 0]
+
+        tires = OctoprimeTires(sensors)
+        self.assertFalse(tires.needs_service())
 
 
 # class TestCalliope(unittest.TestCase):
